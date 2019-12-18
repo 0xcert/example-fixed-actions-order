@@ -7,7 +7,7 @@ import {
   performOrder,
   provider
 } from "./src/example";
-import { config, signatures } from "./src/config";
+import { config } from "./src/config";
 
 const divConsole = document.getElementById("console");
 const btnApproveAssetTransfer = document.getElementById(
