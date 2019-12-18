@@ -2,9 +2,12 @@ import {
   checkApprovedAssetTransfer,
   approveAssetTransfer,
   checkApprovedAssetCreation,
-  approveAssetCreation
+  approveAssetCreation,
+  signOrder,
+  performOrder,
+  provider
 } from "./src/example";
-import { config } from "./src/config";
+import { config, signatures } from "./src/config";
 
 const divConsole = document.getElementById("console");
 const btnApproveAssetTransfer = document.getElementById(
@@ -13,6 +16,72 @@ const btnApproveAssetTransfer = document.getElementById(
 const btnApproveAssetCreation = document.getElementById(
   "btnApproveAssetCreation"
 );
+const btnSignOrder = document.getElementById("btnSignOrder");
+const btnPerformOrder = document.getElementById("btnPerformOrder");
+
+btnSignOrder.addEventListener("click", async () => {
+  if (config.assetLedgerId === "") {
+    printWarning(
+      "No assetLedgerSource defined. Either deploy a new asset ledger or set asset ledger source in src/config.ts file."
+    );
+    return;
+  }
+
+  if (config.account1Id === "") {
+    printWarning("No account1Id defined. Please set it in src/config.ts file.");
+    return;
+  }
+
+  if (config.account2Id === "") {
+    printWarning("No account2Id defined. Please set it in src/config.ts file.");
+    return;
+  }
+
+  if (provider.accountId !== config.account1Id) {
+    printWarning("Select account1 in metamask to sign this order.");
+    return;
+  }
+
+  let error = null;
+  await signOrder().catch(e => {
+    error = e;
+    printError(e);
+  });
+
+  if (!error) {
+    printMessage("Order signing sucessfull: " + config.signature);
+  }
+});
+
+btnPerformOrder.addEventListener("click", async () => {
+  if (config.assetLedgerId === "") {
+    printWarning(
+      "No assetLedgerSource defined. Either deploy a new asset ledger or set asset ledger source in src/config.ts file."
+    );
+    return;
+  }
+
+  if (config.account2Id === "") {
+    printWarning("No account2Id defined. Please set it in src/config.ts file.");
+    return;
+  }
+
+  if (provider.accountId !== config.account2Id) {
+    printWarning("Select account2 in metamask to perform this order.");
+    return;
+  }
+
+  const mutation = await performOrder().catch(e => {
+    printError(e);
+  });
+
+  if (mutation) {
+    printMessage("Atomic order in progress: " + mutation.id);
+    printMessage("This may take a while.");
+    await mutation.complete();
+    printMessage("Atomic order completed");
+  }
+});
 
 btnApproveAssetCreation.addEventListener("click", async () => {
   if (config.assetLedgerId === "") {

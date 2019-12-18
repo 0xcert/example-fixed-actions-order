@@ -1,4 +1,8 @@
-import { OrderKind, ActionsOrderActionKind } from "@0xcert/ethereum-gateway";
+import {
+  OrderKind,
+  ActionsOrderActionKind,
+  FixedActionsOrder
+} from "@0xcert/ethereum-gateway";
 
 export const config = {
   providerConfig: {
@@ -10,9 +14,10 @@ export const config = {
       valueLedgerDeployOrderId: "0x327577e70e21AcEe01447AD06939Fb4057232b2A"
     }
   },
-  assetLedgerId: "0x490e9549172b6e549FBf6f04CC6fCE56B45C8A94", // Input you own asset ledger id
-  account1Id: "0xF9196F9f176fd2eF9243E8960817d5FbE63D79aa", // Input your primary metamask account Id.
-  account2Id: "" // Input your secondary metamask account Id
+  assetLedgerId: "", // Input you own asset ledger id
+  account1Id: "", // Input your primary metamask account Id.
+  account2Id: "", // Input your secondary metamask account Id
+  signature: ""
 };
 
 export const order = {
@@ -38,4 +43,4 @@ export const order = {
         "c6c14772f269bed1161d4350403f4c867c749b3cce7abe84c6d0605068cd8a87"
     }
   ]
-};
+} as FixedActionsOrder;

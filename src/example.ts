@@ -2,12 +2,12 @@ import {
   AssetLedger,
   GeneralAssetLedgerAbility
 } from "@0xcert/ethereum-asset-ledger";
-import { Gateway, ProxyKind, ActionsOrder } from "@0xcert/ethereum-gateway";
+import { Gateway, ProxyKind } from "@0xcert/ethereum-gateway";
 import { MetamaskProvider } from "@0xcert/ethereum-metamask-provider";
 import { config, order } from "./config";
 
 // We create a new instance of metamask provider.
-const provider = new MetamaskProvider(config.providerConfig);
+export const provider = new MetamaskProvider(config.providerConfig);
 
 export async function enableMetamask() {
   // We first check if metamask is already enabled.
@@ -57,4 +57,20 @@ export async function approveAssetCreation() {
   return assetLedger.grantAbilities(createProxy, [
     GeneralAssetLedgerAbility.CREATE_ASSET
   ]);
+}
+
+export async function signOrder() {
+  await enableMetamask();
+  const gateway = new Gateway(provider);
+  console.log(order);
+  const signature = await gateway.sign(order).catch(e => {
+    console.log(e);
+    throw e;
+  });
+  config.signature = signature;
+}
+
+export async function performOrder() {
+  const gateway = new Gateway(provider);
+  return gateway.perform(order, [config.signature]);
 }
