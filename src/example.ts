@@ -62,9 +62,7 @@ export async function approveAssetCreation() {
 export async function signOrder() {
   await enableMetamask();
   const gateway = new Gateway(provider);
-  console.log(order);
   const signature = await gateway.sign(order).catch(e => {
-    console.log(e);
     throw e;
   });
   config.signature = signature;
