@@ -8,10 +8,10 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
-    "@0xcert/ethereum-asset-ledger": "2.0.0-alpha14",
-    "@0xcert/ethereum-gateway": "2.0.0-alpha14",
-    "@0xcert/ethereum-metamask-provider": "2.0.0-alpha14",
-    "@0xcert/ethereum-value-ledger": "2.0.0-alpha14"
+    "@0xcert/ethereum-asset-ledger": "2.0.0-beta",
+    "@0xcert/ethereum-gateway": "2.0.0-beta",
+    "@0xcert/ethereum-metamask-provider": "2.0.0-beta",
+    "@0xcert/ethereum-value-ledger": "2.0.0-beta"
   },
   "devDependencies": {
     "parcel-bundler": "^1.6.1"
